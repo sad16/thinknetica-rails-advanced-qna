@@ -18,8 +18,8 @@ feature 'user can create answer', %q{
       fill_in 'Body', with: 'Answer body'
       click_on 'Answer'
 
-      expect(page).to have_content('The answer has been successfully created')
-      expect(page).to have_content('Answer body')
+      expect(page).to have_content 'The answer has been successfully created'
+      expect(page).to have_content 'Answer body'
     end
 
     scenario 'tries to create invalid answer a question' do
@@ -33,7 +33,7 @@ feature 'user can create answer', %q{
     scenario 'tries to answer a question' do
       visit question_path(question)
 
-      expect(page).not_to have_content('New answer')
+      expect(page).not_to have_content 'New answer'
     end
   end
 end

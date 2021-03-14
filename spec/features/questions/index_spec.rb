@@ -9,9 +9,9 @@ feature 'user can show questions', %q{
     scenario 'tries to show questions' do
       visit questions_path
 
-      expect(page).to have_content('Questions')
+      expect(page).to have_content 'Questions'
       questions.each do |question|
-        expect(page).to have_content(question.title)
+        expect(page).to have_content question.title
       end
     end
   end

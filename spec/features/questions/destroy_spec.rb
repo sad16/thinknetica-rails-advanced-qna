@@ -18,7 +18,11 @@ feature 'user can delete question' do
     scenario 'tries to delete question' do
       visit question_path(question)
 
-      expect(page).to have_content('Delete question')
+      expect(page).to have_content question.title
+
+      click_on 'Delete question'
+
+      expect(page).not_to have_content question.title
     end
 
     context 'when the user is not the author of the question' do

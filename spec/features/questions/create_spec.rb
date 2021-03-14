@@ -17,9 +17,9 @@ feature 'user can create question', %q{
       fill_in 'Body', with: 'Question body'
       click_on 'Ask'
 
-      expect(page).to have_content('The question has been successfully created')
-      expect(page).to have_content('Question title')
-      expect(page).to have_content('Question body')
+      expect(page).to have_content 'The question has been successfully created'
+      expect(page).to have_content 'Question title'
+      expect(page).to have_content 'Question body'
     end
 
     scenario 'tries to create invalid question' do
@@ -36,7 +36,7 @@ feature 'user can create question', %q{
 
       click_on 'Ask question'
 
-      expect(page).to have_content('You need to sign in or sign up before continuing.')
+      expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
 end

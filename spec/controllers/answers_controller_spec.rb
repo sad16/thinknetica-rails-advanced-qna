@@ -53,7 +53,7 @@ RSpec.describe AnswersController, type: :controller do
       let!(:answer) { create(:answer, question: question) }
 
       it 'should not delete answer' do
-        expect { subject }.to change(question.answers, :count).by(0)
+        expect { subject }.not_to change(question.answers, :count)
       end
 
       it 'redirects to question' do

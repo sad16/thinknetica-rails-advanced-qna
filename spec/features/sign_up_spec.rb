@@ -14,7 +14,7 @@ feature 'user can sign up', %q{
       fill_in 'Password confirmation', with: 'password'
       click_on 'Sign up'
 
-      expect(page).to have_content('Welcome! You have signed up successfully.')
+      expect(page).to have_content 'Welcome! You have signed up successfully.'
     end
   end
 
@@ -27,7 +27,7 @@ feature 'user can sign up', %q{
       fill_in 'Password confirmation', with: 'password'
       click_on 'Sign up'
 
-      expect(page).to have_content('Email has already been taken')
+      expect(page).to have_content 'Email has already been taken'
     end
   end
 end

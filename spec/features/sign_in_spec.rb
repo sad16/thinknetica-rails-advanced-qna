@@ -15,7 +15,7 @@ feature 'user can sign in', %q{
       fill_in 'Password', with: user.password
       click_on 'Log in'
 
-      expect(page).to have_content('Signed in successfully.')
+      expect(page).to have_content 'Signed in successfully.'
     end
   end
 
@@ -25,7 +25,7 @@ feature 'user can sign in', %q{
       fill_in 'Password', with: 'wrong_password'
       click_on 'Log in'
 
-      expect(page).to have_content('Invalid Email or password.')
+      expect(page).to have_content 'Invalid Email or password.'
     end
   end
 end

@@ -4,7 +4,7 @@ h1 = @question.title
 p = @question.body
 
 - if user_signed_in?
-  - if current_user.author_of(@question)
+  - if current_user.author_of?(@question)
    p = link_to "Delete question", question_path(@question), method: :delete
 
   p New answer
@@ -17,5 +17,5 @@ p Answers
     - if answer.persisted?
       p = answer.body
 
-      - if current_user&.author_of(answer)
+      - if current_user&.author_of?(answer)
         p = link_to "Delete answer", answer_path(answer), method: :delete

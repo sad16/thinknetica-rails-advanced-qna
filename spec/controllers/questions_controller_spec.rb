@@ -1,13 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  describe 'GET #index' do
+    let!(:questions) { create_list(:question, 3) }
+
+    before { get :index }
+
+    it 'assigns the requested questions to @questions' do
+      expect(assigns(:questions)).to eq(questions)
+    end
+
+    it 'renders index view' do
+      expect(response).to render_template :index
+    end
+  end
+
   describe 'GET #show' do
     let(:question) { create(:question) }
 
     before { get :show, params: { id: question } }
 
     it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
+      expect(assigns(:question)).to eq(question)
     end
 
     it 'renders show view' do
@@ -18,7 +32,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'authenticated user' do
     let(:user) { create(:user) }
 
-    before { login(user)}
+    before { login(user) }
 
     describe 'GET #new' do
       before { get :new }
@@ -34,26 +48,52 @@ RSpec.describe QuestionsController, type: :controller do
 
     describe 'POST #create' do
       context 'with valid attributes' do
+        subject { post :create, params: { question: attributes_for(:question) } }
+
         it 'saves a new question in the database' do
-          expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+          expect { subject }.to change(Question, :count).by(1)
         end
 
         it 'redirects to show view' do
-          post :create, params: { question: attributes_for(:question) }
-
-          expect(response).to redirect_to assigns(:question)
+          is_expected.to redirect_to assigns(:question)
         end
       end
 
       context 'with invalid attributes' do
+        subject { post :create, params: { question: attributes_for(:question, :invalid) } }
+
         it 'does not save the question' do
-          expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+          expect { subject }.to_not change(Question, :count)
         end
 
         it 're-renders new view' do
-          post :create, params: { question: attributes_for(:question, :invalid) }
+          is_expected.to render_template :new
+        end
+      end
+    end
 
-          expect(response).to render_template :new
+    describe 'PATCH #update' do
+      subject { patch :update, params: { id: question.id, question: { body: new_body } }, format: :js }
+
+      let!(:question) { create(:question, user: user) }
+      let(:body) { question.body }
+      let(:new_body) { 'new body' }
+
+      it 'updates the question in the database' do
+        expect { subject }.to change { question.reload.body }.from(body).to(new_body)
+      end
+
+      context 'with invalid attributes' do
+        let(:new_body) { nil }
+
+        it 'does not update the answer' do
+          expect { subject }.not_to change { question.body }
+        end
+      end
+
+      context 'when the user is not the author' do
+        it 'does not update the answer' do
+          expect { subject }.not_to change { question.body }
         end
       end
     end
@@ -83,6 +123,5 @@ RSpec.describe QuestionsController, type: :controller do
         end
       end
     end
-
   end
 end

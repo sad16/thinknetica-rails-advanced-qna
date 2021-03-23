@@ -70,18 +70,6 @@ RSpec.describe AnswersController, type: :controller do
         expect { subject }.not_to change(question.answers, :count)
       end
     end
-
-    context 'when best answer' do
-      let!(:best_answer_id) { answer.id }
-
-      before do
-        answer.mark_as_best
-      end
-
-      it 'should delete best answer' do
-        expect { subject }.to change { question.reload.best_answer_id }.from(best_answer_id).to(nil)
-      end
-    end
   end
 
   describe 'POST #mark_as_best' do

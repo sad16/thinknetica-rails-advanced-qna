@@ -26,10 +26,7 @@ class AnswersController < ApplicationController
 
   def destroy
     if current_user.author_of?(@answer)
-      Answer.transaction do
-        @answer.clear_best_mark
-        @answer.destroy
-      end
+      @answer.destroy
       @notice = "The answer has been successfully deleted"
     else
       @alert = "You can't delete the answer, because you aren't its author"

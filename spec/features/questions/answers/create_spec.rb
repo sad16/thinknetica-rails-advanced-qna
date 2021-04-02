@@ -14,7 +14,7 @@ feature 'user can create answer', %q{
 
     background { visit question_path(question) }
 
-    scenario 'tries to answer a question' do
+    scenario 'tries to create answer a question' do
       fill_in 'Body', with: 'Answer body'
       click_on 'Answer'
 
@@ -24,6 +24,20 @@ feature 'user can create answer', %q{
         expect(page).to have_content 'Answer body'
         expect(page).to have_content 'Edit answer'
         expect(page).to have_content 'Delete answer'
+      end
+    end
+
+    scenario 'tries to create answer with attached files' do
+      fill_in 'Body', with: 'Answer body'
+      attach_file 'File', [
+        "#{Rails.root}/spec/fixtures/files/text_test_file.txt",
+        "#{Rails.root}/spec/fixtures/files/image_test_file.jpeg",
+      ]
+      click_on 'Answer'
+
+      within '.answers' do
+        expect(page).to have_link 'text_test_file.txt'
+        expect(page).to have_link 'image_test_file.jpeg'
       end
     end
 

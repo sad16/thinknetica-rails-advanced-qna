@@ -8,28 +8,28 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
-      @notice = "The answer has been successfully created"
+      flash_notice("The answer has been successfully created")
     else
-      @alert = "The answer has not been created"
+      flash_alert("The answer has not been created")
     end
   end
 
   def update
     if current_user.author_of?(@answer)
       if @answer.update(answer_params)
-        @notice = "The answer has been successfully updated"
+        flash_notice("The answer has been successfully updated")
       end
     else
-      @alert = "You can't update the answer, because you aren't its author"
+      flash_alert("You can't update the answer, because you aren't its author")
     end
   end
 
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      @notice = "The answer has been successfully deleted"
+      flash_notice("The answer has been successfully deleted")
     else
-      @alert = "You can't delete the answer, because you aren't its author"
+      flash_alert("You can't delete the answer, because you aren't its author")
     end
   end
 
@@ -37,14 +37,14 @@ class AnswersController < ApplicationController
     if current_user.author_of?(@answer.question)
       @answer.mark_as_best
     else
-      @alert = "You can't mark the answer, because you aren't author the question"
+      flash_alert("You can't mark the answer, because you aren't author the question")
     end
   end
 
   private
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
   end
 
   def find_question

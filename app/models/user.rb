@@ -10,4 +10,12 @@ class User < ApplicationRecord
   def author_of?(resource)
     resource.user_id == id
   end
+
+  def best_answers
+    answers.bests
+  end
+
+  def rewards
+    Reward.by_user(self)
+  end
 end

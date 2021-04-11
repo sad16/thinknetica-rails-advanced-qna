@@ -27,8 +27,20 @@ FactoryBot.define do
       end
     end
 
+    trait :with_link do
+      after :create do |question|
+        create :link, linkable: question
+      end
+    end
+
     trait :with_file do
       files { Rack::Test::UploadedFile.new("spec/fixtures/files/image_test_file.jpeg", "image/jpeg") }
+    end
+
+    trait :with_reward do
+      after :create do |question|
+        create :reward, question: question
+      end
     end
 
     factory :question_with_answer_and_best_answer, traits: [:with_answer, :with_best_answer]

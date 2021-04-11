@@ -7,7 +7,7 @@ class FilesController < ApplicationController
     if current_user.author_of?(@file.record)
       @file.purge
     else
-      @alert = "You can't delete the file, because you aren't its author"
+      flash_alert("You can't delete the file, because you aren't its author")
     end
   end
 end

@@ -6,10 +6,23 @@ RSpec.describe Answer, type: :model do
 
   it { should have_one(:question_with_best_answer).class_name('Question').with_foreign_key('best_answer_id').dependent(:nullify) }
 
+  it { should have_many(:links).dependent(:destroy) }
+
+  it { should accept_nested_attributes_for :links }
+
   it { should validate_presence_of(:body) }
 
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  describe '.bests scope' do
+    subject { described_class.bests }
+
+    let!(:answer) { create(:answer) }
+    let!(:best) { create(:answer, :best) }
+
+    it { is_expected.to eq([best]) }
   end
 
   describe 'best answer' do

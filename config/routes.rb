@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'home#index'
+  root to: 'questions#index'
 
   devise_for :users
 
@@ -11,5 +11,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :rewards, only: [:index]
+
   resources :files, only: [:destroy]
+  resources :links, only: [:destroy]
 end

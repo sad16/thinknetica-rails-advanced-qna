@@ -8,10 +8,13 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answer.links.new
   end
 
   def new
     @question = Question.new
+    @question.links.new
+    @question.build_reward
   end
 
   def create
@@ -27,10 +30,10 @@ class QuestionsController < ApplicationController
   def update
     if current_user.author_of?(@question)
       if @question.update(question_params)
-        @notice = "The question has been successfully updated"
+        flash_notice("The question has been successfully updated")
       end
     else
-      @alert = "You can't update the question, because you aren't its author"
+      flash_alert("You can't update the question, because you aren't its author")
     end
   end
 
@@ -46,7 +49,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url], reward_attributes: [:name, :image])
   end
 
   def find_question

@@ -15,6 +15,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_link do
+      after :create do |answer|
+        create :link, linkable: answer
+      end
+    end
+
     trait :with_file do
       files { Rack::Test::UploadedFile.new("spec/fixtures/files/image_test_file.jpeg", "image/jpeg") }
     end

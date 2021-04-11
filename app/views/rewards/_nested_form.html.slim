@@ -1,0 +1,10 @@
+p Reward:
+.reward-nested-form
+  = f.fields_for :reward do |reward|
+    .nested-fields
+      p
+        = reward.label :name, 'Reward name'
+        = reward.text_field :name
+      p
+        = reward.label :image
+        = reward.file_field :image, direct_upload: true

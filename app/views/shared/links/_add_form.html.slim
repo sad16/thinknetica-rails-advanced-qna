@@ -1,0 +1,4 @@
+p Links:
+.links-nested-form
+  = f.fields_for :links do |link|
+  = link_to_add_association 'Add link', f, :links, partial: '/shared/links/link_fields'

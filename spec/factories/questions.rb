@@ -9,10 +9,21 @@ FactoryBot.define do
       title { nil }
     end
 
-    trait :with_best_answer do
+    trait :with_answer do
+      after :create do |question|
+        create :answer, question: question
+      end
+    end
+
+    trait :with_answers do
       after :create do |question|
         create_list :answer, 3, question: question
-        question.answers.last.mark_as_best
+      end
+    end
+
+    trait :with_best_answer do
+      after :create do |question|
+        create :answer, :best, question: question
       end
     end
 
@@ -20,5 +31,6 @@ FactoryBot.define do
       files { Rack::Test::UploadedFile.new("spec/fixtures/files/image_test_file.jpeg", "image/jpeg") }
     end
 
+    factory :question_with_answer_and_best_answer, traits: [:with_answer, :with_best_answer]
   end
 end

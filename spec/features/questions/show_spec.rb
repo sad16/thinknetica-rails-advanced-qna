@@ -10,15 +10,14 @@ feature 'user can show question and answers', %q{
       visit question_path(question)
 
       expect(page).to have_content question.title
-      answers.each do |answer|
+      question.answers.each do |answer|
         expect(page).to have_content answer.body
       end
     end
   end
 
   given(:user) { create(:user) }
-  given(:question) { create(:question)}
-  given!(:answers) { create_list(:answer, 3, question: question) }
+  given(:question) { create(:question, :with_answers) }
 
   describe 'authenticated user' do
     background { login(user) }
@@ -31,14 +30,14 @@ feature 'user can show question and answers', %q{
   end
 
   context 'when question with best answer' do
-    given(:question_with_best_answer) { create(:question, :with_best_answer) }
+    given(:question) { create(:question_with_answer_and_best_answer) }
 
     scenario 'best answer show first' do
-      visit question_path(question_with_best_answer)
+      visit question_path(question)
 
       within('.answers') do
         within first('.answer') do
-          expect(page).to have_content question_with_best_answer.best_answer.body
+          expect(page).to have_content question.best_answer.body
         end
       end
     end

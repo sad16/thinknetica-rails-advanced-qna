@@ -32,7 +32,7 @@ feature 'user can edit his question', %q{
       click_on 'Edit question'
 
       within '.edit-question-form' do
-        attach_file 'File', [
+        attach_file 'Files', [
           "#{Rails.root}/spec/fixtures/files/text_test_file.txt",
           "#{Rails.root}/spec/fixtures/files/image_test_file.jpeg",
         ]

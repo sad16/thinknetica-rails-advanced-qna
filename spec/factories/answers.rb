@@ -18,6 +18,5 @@ FactoryBot.define do
     trait :with_file do
       files { Rack::Test::UploadedFile.new("spec/fixtures/files/image_test_file.jpeg", "image/jpeg") }
     end
-
   end
 end

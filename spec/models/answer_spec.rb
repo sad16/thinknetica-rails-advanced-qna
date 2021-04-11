@@ -4,6 +4,8 @@ RSpec.describe Answer, type: :model do
   it { should belong_to(:user) }
   it { should belong_to(:question) }
 
+  it { should have_one(:question_with_best_answer).class_name('Question').with_foreign_key('best_answer_id').dependent(:nullify) }
+
   it { should validate_presence_of(:body) }
 
   it 'have many attached files' do

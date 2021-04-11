@@ -1,7 +1,8 @@
 class Question < ApplicationRecord
   belongs_to :user
+  belongs_to :best_answer, class_name: 'Answer', dependent: :destroy, optional: true
+
   has_many :answers, dependent: :destroy
-  has_one :best_answer, class_name: 'Answer', dependent: :nullify
 
   has_many_attached :files
 

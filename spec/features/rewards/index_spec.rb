@@ -1,22 +1,21 @@
 require 'rails_helper'
 
 feature 'user can see his rewards' do
-  given!(:question) { create(:question, :with_reward) }
-  given!(:answer) { create(:answer, :best, question: question) }
+  given!(:reward) { create(:reward, :assigned) }
 
-  context 'when user has rewards' do
-    scenario 'tries to show rewards' do
-      login(answer.user)
+  scenario 'tries to show rewards' do
+    login(reward.user)
 
-      visit rewards_path
+    visit rewards_path
 
-      expect(page).to have_content question.reward.name
-    end
+    expect(page).to have_content reward.name
   end
 
   context 'when user has not rewards' do
+    given!(:reward) { create(:reward) }
+
     scenario 'tries to show rewards' do
-      login(question.user)
+      login(reward.question.user)
 
       visit rewards_path
 

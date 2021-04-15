@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:title) { |n| "Question #{n} title" }
     sequence(:body) { |n| "Question #{n} body" }
 
-    association :user, factory: :user
+    association :user
 
     trait :invalid do
       title { nil }
@@ -44,5 +44,7 @@ FactoryBot.define do
     end
 
     factory :question_with_answer_and_best_answer, traits: [:with_answer, :with_best_answer]
+    factory :question_with_reward_and_answer, traits: [:with_reward, :with_answer]
+    factory :question_with_reward_and_best_answer_answer, traits: [:with_reward, :with_best_answer]
   end
 end

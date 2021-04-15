@@ -34,11 +34,9 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    if current_user.author_of?(@answer.question)
-      @answer.mark_as_best
-    else
-      flash_alert("You can't mark the answer, because you aren't author the question")
-    end
+    Answers::MarkAsBestService.new.call(current_user, @answer)
+  rescue Answers::MarkAsBestService::UserNotAuthorError
+    flash_alert("You can't mark the answer, because you aren't author the question")
   end
 
   private

@@ -1,9 +1,16 @@
 class Reward < ApplicationRecord
   belongs_to :question
+  belongs_to :user, optional: true
 
   has_one_attached :image
 
   validates :name, :image, presence: true
 
-  scope :by_user, -> (user) { where(question: Question.where(best_answer_id: user.best_answers)) }
+  def assign
+    update(user: question.best_answer&.user)
+  end
+
+  def unassign
+    update(user: nil)
+  end
 end

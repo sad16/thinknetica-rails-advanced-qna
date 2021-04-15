@@ -75,15 +75,21 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #mark_as_best' do
     subject { post :mark_as_best, params: { id: answer.id }, format: :js }
 
-    let(:question) { create(:question, user: user) }
-    let!(:answer) { create(:answer, question: question) }
+    let!(:question) { create(:question_with_reward_and_answer, user: user) }
+    let(:reward) { question.reward }
+    let(:answer) { question.answers.first }
 
     it 'should marks answer as best' do
       expect { subject }.to change { question.reload.best_answer_id }.from(nil).to(answer.id)
     end
 
+    it "should assign reward to answer's author" do
+      expect { subject }.to change { reward.reload.user_id }.from(nil).to(answer.user_id)
+    end
+
     context 'when the user is not the question author' do
       let(:question) { create(:question) }
+      let(:answer) { create(:answer )}
 
       it 'should not marks answer as best' do
         expect { subject }.not_to change { question.reload.best_answer_id }

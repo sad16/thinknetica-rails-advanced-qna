@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
+  has_many :rewards, dependent: :nullify
 
   def author_of?(resource)
     resource.user_id == id
@@ -13,9 +14,5 @@ class User < ApplicationRecord
 
   def best_answers
     answers.bests
-  end
-
-  def rewards
-    Reward.by_user(self)
   end
 end

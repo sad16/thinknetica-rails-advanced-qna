@@ -1,14 +1,8 @@
-$(".edit-question-form .question-errors").html("<%= render "shared/errors", resource: @question %>");
+$("#question-id-<%= @question.id %> .edit-question-form .question-errors").html("<%= render "shared/errors", resource: @question %>");
 
 <% if @question.errors.empty? %>
-  $(".question .title").html("<%= j @question.title %>");
-  $(".question .body").html("<%= j @question.body %>");
-  <% if @question.files.attached? %>
-    $(".question .files").html("");
-    <% @question.files.each do |file| %>
-      $(".question .files").append("<%= j render "files/file", file: file %>");
-    <% end %>
-  <% end %>
-  $(".question .edit-question-link").removeClass("hidden");
-  $("form#edit-question-form-<%= @question.id %>").addClass("hidden");
+  $("#question-id-<%= @question.id %>").remove();
+  $(".question-container").append("<%= j render @question %>")
 <% end %>
+
+loadGists();

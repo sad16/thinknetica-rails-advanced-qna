@@ -8,5 +8,7 @@
   p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+  = render '/shared/links/nested_form', f: f
+  = render '/rewards/nested_form', f: f
   p
     = f.submit "Ask"

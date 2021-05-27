@@ -30,4 +30,17 @@ RSpec.describe User, type: :model do
     it { expect(user.best_answers).to eq([answer]) }
   end
 
+  describe '#vote_by' do
+    let!(:answer) { create(:answer) }
+    let!(:vote) { create(:vote, user: user, voteable: answer) }
+
+    it { expect(user.vote_by(answer)).to eq(vote) }
+
+    context 'when user has not votes' do
+      let!(:vote) { create(:vote, voteable: answer) }
+
+      it { expect(user.vote_by(answer)).to be_nil }
+    end
+  end
+
 end

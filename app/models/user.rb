@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :rewards, dependent: :nullify
+  has_many :votes, dependent: :destroy
 
   def author_of?(resource)
     resource.user_id == id
@@ -14,5 +15,9 @@ class User < ApplicationRecord
 
   def best_answers
     answers.bests
+  end
+
+  def vote_by(voteable)
+    votes.find_by(voteable: voteable)
   end
 end

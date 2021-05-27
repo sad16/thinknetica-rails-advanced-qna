@@ -28,6 +28,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer).links.first).to be_a_new(Link)
     end
 
+    it 'assigns new vote for question' do
+      expect(assigns(:vote)).to be_a_new(Vote)
+    end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -51,6 +55,17 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'renders new view' do
         expect(response).to render_template :new
+      end
+    end
+
+    describe 'GET #show' do
+      let!(:question) { create(:question) }
+      let!(:vote) { create(:vote, user: user, voteable: question) }
+
+      before { get :show, params: { id: question } }
+
+      it 'assigns vote for question' do
+        expect(assigns(:vote)).to be_persisted
       end
     end
 

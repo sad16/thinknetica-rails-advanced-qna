@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.new
     @answer.links.new
+    @vote = current_user&.vote_by(@question) || @question.votes.new
   end
 
   def new

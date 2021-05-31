@@ -2,6 +2,8 @@
   h1.title = @question.title
   p.body = @question.body
 
+  = render "/shared/votes/vote_block", vote: @vote, voteable: @question
+
   .files
     = render "/files/files_block", files: @question.files
 

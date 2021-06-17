@@ -4,8 +4,9 @@
     - links.each do |link|
       li id="link-id-#{link.id}"
         - if link.gist_id
-          = link_to link.name, link.url, class: 'gist', data: { gist_id: link.gist_id }
-          .gist-container id=link.gist_id
+          = link_to link.name, link.url, class: 'gist', data: { gist_id: link.gist_id, link_id: link.id }
+          .gist-container id="#{link.id}_#{link.gist_id}"
         - else
           = link_to link.name, link.url
-        = link_to "Delete link", link_path(link), method: :delete, remote: true
+        - if current_user&.author_of?(link.linkable)
+          = link_to "Delete link", link_path(link), method: :delete, remote: true

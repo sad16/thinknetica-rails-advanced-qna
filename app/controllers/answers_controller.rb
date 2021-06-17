@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:create]
   before_action :find_answer, only: [:update, :destroy, :mark_as_best]
 
+  after_action :publish_answer, only: [:create]
+
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
@@ -51,5 +53,27 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.present?
+
+    ActionCable.server.broadcast(
+      "questions/#{@answer.question_id}/answers",
+      {
+        id: @answer.id,
+        author_id: @answer.user_id,
+        templates: {
+          answer: render_template(
+            partial: 'websockets/answers/answer',
+            locals: { answer: @answer }
+          ),
+          vote_links: render_template(
+            partial: 'websockets/shared/votes/vote_links',
+            locals: { voteable: @answer, vote: @answer.votes.new }
+          )
+        }
+      }
+    )
   end
 end

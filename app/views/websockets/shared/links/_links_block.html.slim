@@ -1,0 +1,10 @@
+- if links.present?
+  p Links:
+  ul
+    - links.each do |link|
+      li id="link-id-#{link.id}"
+        - if link.gist_id
+          = link_to link.name, link.url, class: 'gist', data: { gist_id: link.gist_id }
+          .gist-container id=link.gist_id
+        - else
+          = link_to link.name, link.url

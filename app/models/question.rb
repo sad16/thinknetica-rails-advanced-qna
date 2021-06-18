@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   include Linkable
   include Voteable
+  include Commentable
 
   belongs_to :user
   belongs_to :best_answer, class_name: 'Answer', dependent: :destroy, optional: true

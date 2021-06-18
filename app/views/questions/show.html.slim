@@ -5,10 +5,19 @@
   p New answer
   .new-answer-form
     .answer-errors
-    = render "/answers/form"
+    = render '/answers/form'
+
+  p New comment
+  .new-comment-form
+    .comment-errors
+    = render '/comments/form', commentable: @question
 
 p Answers
 .answers
   - if @question.best_answer_id
     = render @question.best_answer, best: true
   = render @question.answers_without_best
+
+p Comments
+.question-comments
+  = render @question.comments.order(created_at: :asc)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Answers::MarkAsBestService, type: :service do
+RSpec.describe Services::Answers::MarkAsBest, type: :service do
   subject { described_class.new.call(user, answer) }
 
   let(:question) { create(:question_with_reward_and_answer) }

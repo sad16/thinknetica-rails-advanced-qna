@@ -44,6 +44,9 @@ gem 'aws-sdk-s3', require: false
 gem 'validate_url'
 gem 'cocoon'
 gem 'gon'
+gem "omniauth", '~> 1.9.1'
+gem 'omniauth-vkontakte'
+gem 'omniauth-github'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -61,11 +64,13 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem "letter_opener"
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
+  gem 'capybara-email'
   gem 'selenium-webdriver'
   gem 'webdrivers', '~> 4.0', require: false
 

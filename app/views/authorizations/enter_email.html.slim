@@ -1,0 +1,6 @@
+= form_with url: auth_update_email_path(enter_email_token: @auth.enter_email_token) do |f|
+  p
+    = f.label :email
+    = f.text_field :email
+  p
+    = f.submit "Confirm"

@@ -9,6 +9,7 @@ require 'rspec/rails'
 require 'validate_url/rspec_matcher'
 require 'with_model'
 require 'webdrivers/chromedriver'
+require 'capybara/email/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -39,6 +40,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelper, type: :controller
   config.include FeatureHelper, type: :feature
+  config.include OmniauthHelper, type: :feature
 
   config.extend WithModel
 
@@ -87,3 +89,5 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+OmniAuth.config.test_mode = true

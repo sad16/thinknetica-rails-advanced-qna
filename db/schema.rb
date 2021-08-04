@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_153514) do
+ActiveRecord::Schema.define(version: 2021_07_27_200648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,22 @@ ActiveRecord::Schema.define(version: 2021_06_14_153514) do
     t.bigint "user_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "authorizations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.string "email"
+    t.datetime "email_confirmation_at"
+    t.string "enter_email_token"
+    t.datetime "enter_email_token_expires_at"
+    t.string "confirm_email_token"
+    t.datetime "confirm_email_token_expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uid", "provider"], name: "index_authorizations_on_uid_and_provider"
+    t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -114,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_06_14_153514) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "authorizations", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "rewards", "questions"

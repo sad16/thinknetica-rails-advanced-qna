@@ -38,6 +38,8 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
@@ -45,4 +47,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_cable.disable_request_forgery_protection = true
+
+  config.active_job.queue_adapter = :inline
 end

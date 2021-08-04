@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root to: 'questions#index'
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   resources :questions, except: [:edit] do
     resources :answers, only: [:create, :update, :destroy], shallow: true do
@@ -45,6 +45,10 @@ Rails.application.routes.draw do
   resources :answers, only: [], param: :commentable_id do
     concerns :commentable, defaults: { commentable_type: 'answer' }, as: :answer_comments
   end
+
+  get '/a/:enter_email_token/ee', to: 'authorizations#enter_email', as: :auth_enter_email
+  post '/a/:enter_email_token/ue', to: 'authorizations#update_email', as: :auth_update_email
+  get '/a/:confirm_email_token/ce', to: 'authorizations#confirm_email', as: :auth_confirm_email
 
   mount ActionCable.server => '/cable'
 end

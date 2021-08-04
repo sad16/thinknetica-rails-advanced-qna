@@ -36,8 +36,8 @@ class AnswersController < ApplicationController
   end
 
   def mark_as_best
-    Answers::MarkAsBestService.new.call(current_user, @answer)
-  rescue Answers::MarkAsBestService::UserNotAuthorError
+    Services::Answers::MarkAsBest.new.call(current_user, @answer)
+  rescue Services::Answers::MarkAsBest::UserNotAuthorError
     flash_alert("You can't mark the answer, because you aren't author the question")
   end
 

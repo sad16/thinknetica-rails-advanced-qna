@@ -142,7 +142,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'redirects to question' do
-          is_expected.to redirect_to question_path(question)
+          is_expected.to redirect_to root_path
         end
       end
     end

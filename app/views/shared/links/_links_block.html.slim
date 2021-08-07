@@ -8,5 +8,5 @@
           .gist-container id="#{link.id}_#{link.gist_id}"
         - else
           = link_to link.name, link.url
-        - if current_user&.author_of?(link.linkable)
+        - if policy(link).destroy?
           = link_to "Delete link", link_path(link), method: :delete, remote: true

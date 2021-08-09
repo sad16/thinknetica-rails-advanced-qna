@@ -1,7 +1,7 @@
 .vote-block
   p Vote
   .vote-actions
-    - if user_signed_in? && !current_user&.author_of?(voteable)
+    - if user_signed_in? && VotePolicy.new(current_user, vote).show?
       - if vote.persisted?
         .vote-result
           = vote.value.positive? ? "Plus" : "Minus"

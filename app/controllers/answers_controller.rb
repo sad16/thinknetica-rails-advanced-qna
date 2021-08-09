@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: [:create]
   before_action :find_answer, only: [:update, :destroy, :mark_as_best]
+  before_action :authorize_user!, only: [:update, :destroy, :mark_as_best]
 
   after_action :publish_answer, only: [:create]
 
@@ -17,22 +18,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@answer)
-      if @answer.update(answer_params)
-        flash_notice("The answer has been successfully updated")
-      end
+    if @answer.update(answer_params)
+      flash_notice("The answer has been successfully updated")
     else
-      flash_alert("You can't update the answer, because you aren't its author")
+      flash_notice("The answer has not been updated")
     end
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash_notice("The answer has been successfully deleted")
-    else
-      flash_alert("You can't delete the answer, because you aren't its author")
-    end
+    @answer.destroy
+    flash_notice("The answer has been successfully deleted")
   end
 
   def mark_as_best
@@ -53,6 +48,10 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def authorize_user!
+    authorize @answer
   end
 
   def publish_answer

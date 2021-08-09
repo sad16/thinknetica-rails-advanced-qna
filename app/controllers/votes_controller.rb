@@ -15,12 +15,10 @@ class VotesController < ApplicationController
   def destroy
     vote = Vote.find(params[:id])
 
-    if current_user.author_of?(vote)
-      vote.destroy
-      render json: vote
-    else
-      render json: { errors: ["You can't delete the vote, because you aren't its author"] }, status: :forbidden
-    end
+    authorize vote
+
+    vote.destroy
+    render json: vote
   end
 
   private

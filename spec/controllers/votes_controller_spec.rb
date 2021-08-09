@@ -6,7 +6,7 @@ RSpec.describe VotesController, type: :controller do
   before { login(user) }
 
   describe 'POST #create' do
-    subject { post :create, params: { voteable_id: question.id, voteable_type: 'question', value: 1 }, format: :js }
+    subject { post :create, params: { voteable_id: question.id, voteable_type: 'question', value: 1 }, format: :json }
 
     let(:question) { create(:question) }
     let(:last_vote) { Vote.last }
@@ -24,7 +24,7 @@ RSpec.describe VotesController, type: :controller do
     end
 
     context 'when invalid params' do
-      subject { post :create, params: { voteable_id: question.id, voteable_type: 'question' }, format: :js }
+      subject { post :create, params: { voteable_id: question.id, voteable_type: 'question' }, format: :json }
 
       it 'should not create vote' do
         expect { subject }.not_to change(Vote, :count)
@@ -35,7 +35,7 @@ RSpec.describe VotesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    subject { delete :destroy, params: { id: vote.id }, format: :js }
+    subject { delete :destroy, params: { id: vote.id }, format: :json }
 
     let!(:vote) { create(:vote, user: user) }
 
@@ -51,7 +51,7 @@ RSpec.describe VotesController, type: :controller do
       it 'should not delete vote' do
         expect { subject }.not_to change(Vote, :count)
         expect(response).to have_http_status(:forbidden)
-        expect(response.body).to eq({ errors: ["You can't delete the vote, because you aren't its author"] }.to_json)
+        expect(response.body).to eq({ errors: ["You are not authorized to perform this action."] }.to_json)
       end
     end
   end

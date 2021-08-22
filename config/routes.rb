@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   root to: 'questions#index'
 
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
@@ -49,6 +50,18 @@ Rails.application.routes.draw do
   get '/a/:enter_email_token/ee', to: 'authorizations#enter_email', as: :auth_enter_email
   post '/a/:enter_email_token/ue', to: 'authorizations#update_email', as: :auth_update_email
   get '/a/:confirm_email_token/ce', to: 'authorizations#confirm_email', as: :auth_confirm_email
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [:index] do
+        get :me, on: :collection
+      end
+
+      resources :questions, except: [:new, :edit] do
+        resources :answers, except: [:new, :edit], shallow: true
+      end
+    end
+  end
 
   mount ActionCable.server => '/cable'
 end

@@ -5,8 +5,8 @@ module Api
       before_action :authorize_user!, only: [:update, :destroy]
 
       def index
-        @questions = Question.all
-        render json: @questions
+        questions = Question.all
+        render json: questions
       end
 
       def show
@@ -14,12 +14,12 @@ module Api
       end
 
       def create
-        @question = current_resource_owner.questions.new(question_params)
+        question = current_resource_owner.questions.new(question_params)
 
-        if @question.save
-          render json: @question
+        if question.save
+          render json: question
         else
-          render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: question.errors.full_messages }, status: :unprocessable_entity
         end
       end
 

@@ -6,8 +6,8 @@ module Api
       end
 
       def index
-        @profiles = User.where.not(id: current_resource_owner.id)
-        render json: @profiles, each_serializer: ProfileSerializer
+        profiles = User.where.not(id: current_resource_owner.id)
+        render json: profiles, each_serializer: ProfileSerializer
       end
     end
   end

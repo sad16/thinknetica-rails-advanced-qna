@@ -42,6 +42,7 @@ RSpec.configure do |config|
   config.include ControllerHelper, type: :controller
   config.include FeatureHelper, type: :feature
   config.include OmniauthHelper, type: :feature
+  config.include ApiHelper, type: :request
 
   config.extend WithModel
 

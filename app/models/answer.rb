@@ -17,6 +17,8 @@ class Answer < ApplicationRecord
 
   scope :bests, -> { where(question: Question.with_best_answer) }
 
+  after_create_commit :send_notification
+
   def mark_as_best
     question.update(best_answer_id: id)
   end
@@ -31,5 +33,11 @@ class Answer < ApplicationRecord
 
   def unassign_reward
     reward&.unassign
+  end
+
+  private
+
+  def send_notification
+    NotificationsJob.perform_later(self)
   end
 end

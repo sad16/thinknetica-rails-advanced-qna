@@ -24,6 +24,7 @@ feature 'user can create question', %q{
         expect(page).to have_content 'The question has been successfully created'
         expect(page).to have_content 'Question title'
         expect(page).to have_content 'Question body'
+        expect(page).to have_link 'Unsubscribe'
       end
 
       scenario 'asks a question with attached files' do

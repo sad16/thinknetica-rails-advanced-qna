@@ -1,0 +1,4 @@
+p Hi, it is daily digest!
+p Yesterday questions:
+- @questions_data.each do |q|
+  = link_to q[:title], question_url(id: q[:id])

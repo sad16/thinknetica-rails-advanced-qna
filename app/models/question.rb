@@ -9,6 +9,8 @@ class Question < ApplicationRecord
   has_one :reward, dependent: :destroy
 
   has_many :answers, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :subscribed_users, through: :notifications, source: :user
 
   has_many_attached :files
 
@@ -18,7 +20,15 @@ class Question < ApplicationRecord
 
   scope :with_best_answer, -> { where.not(best_answer_id: nil) }
 
+  after_create_commit :create_notification
+
   def answers_without_best
     answers.where.not(id: best_answer_id)
+  end
+
+  private
+
+  def create_notification
+    notifications.create(user_id: user_id)
   end
 end

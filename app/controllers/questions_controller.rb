@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :update, :destroy]
-  before_action :find_question, only: [:show, :update, :destroy]
-  before_action :authorize_user!, only: [:update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :update, :destroy, :subscribe, :unsubscribe]
+  before_action :find_question, only: [:show, :update, :destroy, :subscribe, :unsubscribe]
+  before_action :authorize_user!, only: [:update, :destroy, :unsubscribe]
 
   after_action :publish_question, only: [:create]
 
@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.new
     @answer.links.new
     @vote = current_user&.vote_by(@question) || @question.votes.new
+    @notification = Notification.find_by(user: current_user, question: @question)
     set_gon
   end
 
@@ -43,6 +44,20 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     redirect_to questions_path, notice: "The question has been successfully deleted"
+  end
+
+  def subscribe
+    notification = Notification.new(user: current_user, question: @question)
+
+    if notification.save
+      render json: { success: true }
+    else
+      render json: { errors: notification.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def unsubscribe
+
   end
 
   private

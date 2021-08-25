@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Services::DailyDigestData, type: :service do
+  let(:cache_key) { described_class::CACHE_KEY }
   let!(:today_question) { create(:question) }
   let!(:yesterday_question) { create(:question, created_at: Date.yesterday) }
 
@@ -12,6 +13,10 @@ RSpec.describe Services::DailyDigestData, type: :service do
       }
     ]
   end
+
+
+  before { Rails.cache.delete(cache_key) }
+  after { Rails.cache.delete(cache_key) }
 
   describe '#call' do
     it do

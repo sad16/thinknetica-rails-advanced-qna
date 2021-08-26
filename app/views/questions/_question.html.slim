@@ -10,6 +10,12 @@
   .links
     = render "/shared/links/links_block", links: @question.links
 
+  .notification
+    - if @notification
+      p = link_to "Unsubscribe", notification_path(@notification), method: :delete, remote: true, class: "unsubscribe-notification-link"
+    - else
+      p = link_to "Subscribe", question_notifications_path(@question), method: :post, remote: true, class: "subscribe-notification-link"
+
   - if policy(@question).edit?
     p = link_to "Edit question", "#", class: "edit-question-link", data: {question_id: @question.id}
 

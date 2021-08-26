@@ -8,6 +8,8 @@ RSpec.describe Question, type: :model do
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:notifications).dependent(:destroy) }
+  it { should have_many(:subscribed_users).through(:notifications).source(:user) }
 
   it { should accept_nested_attributes_for :links }
 
@@ -35,6 +37,15 @@ RSpec.describe Question, type: :model do
 
     it 'should answers without best' do
       is_expected.to match_array(answers)
+    end
+  end
+
+  describe 'after_create_commit create_notification' do
+    let(:question) { build(:question) }
+
+    it do
+      expect(question).to receive(:create_notification).and_call_original
+      expect { question.save }.to change { Notification.count }.by(1)
     end
   end
 end

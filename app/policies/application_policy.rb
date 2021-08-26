@@ -38,6 +38,8 @@ class ApplicationPolicy
     user&.author_of?(entity)
   end
 
+  alias_method :owner_of?, :author_of?
+
   class Scope
     attr_reader :user, :scope
 

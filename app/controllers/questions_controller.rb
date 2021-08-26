@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.new
     @answer.links.new
     @vote = current_user&.vote_by(@question) || @question.votes.new
+    @notification = Notification.find_by(user: current_user, question: @question)
     set_gon
   end
 

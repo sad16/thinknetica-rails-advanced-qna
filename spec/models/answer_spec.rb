@@ -109,4 +109,14 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe 'after_create_commit send_notification' do
+    let(:answer) { build(:answer) }
+
+    it do
+      expect(answer).to receive(:send_notification).and_call_original
+      expect(NotificationsJob).to receive(:perform_later).with(answer)
+      answer.save
+    end
+  end
 end

@@ -54,6 +54,8 @@ gem 'oj'
 gem 'sidekiq'
 gem 'whenever', require: false
 gem 'redis'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -85,6 +87,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'launchy'
   gem 'with_model'
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

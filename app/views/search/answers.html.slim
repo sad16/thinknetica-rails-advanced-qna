@@ -1,0 +1,18 @@
+h1 Answers Search
+
+= form_with url: answers_search_index_path(format: :json), method: :get, id: 'answers-search-form' do |f|
+  .errors
+  p
+    = f.label :global
+    = f.text_field :global, name: "search[global]"
+  p
+    = f.label :body
+    = f.text_field :body, name: "search[body]"
+  p
+    = f.label :author
+    = f.text_field :author, name: "search[author]"
+  p
+    = f.submit 'Search'
+
+h2 Result
+.result

@@ -1,0 +1,18 @@
+h1 Global Search
+
+ul
+  li = link_to "Question Search", questions_search_index_path
+  li = link_to "Answer Search", answers_search_index_path
+  li = link_to "Comment Search", comments_search_index_path
+  li = link_to "User Search", users_search_index_path
+
+= form_with url: global_search_index_path(format: :json), method: :get, id: 'global-search-form' do |f|
+  .errors
+  p
+    = f.label :global
+    = f.text_field :global, name: "search[global]"
+  p
+    = f.submit 'Search'
+
+h2 Result
+.result

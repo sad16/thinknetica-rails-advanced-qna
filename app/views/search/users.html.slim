@@ -1,0 +1,15 @@
+h1 Users Search
+
+= form_with url: users_search_index_path(format: :json), method: :get, id: 'users-search-form' do |f|
+  .errors
+  p
+    = f.label :global
+    = f.text_field :global, name: "search[global]"
+  p
+    = f.label :email
+    = f.text_field :email, name: "search[email]"
+  p
+    = f.submit 'Search'
+
+h2 Result
+.result

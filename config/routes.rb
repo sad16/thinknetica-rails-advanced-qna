@@ -67,6 +67,16 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :search, only: [] do
+    collection do
+      get :global
+      get :questions
+      get :answers
+      get :comments
+      get :users
+    end
+  end
+
   mount ActionCable.server => '/cable'
 
   authenticate :user, lambda { |u| u.admin? } do

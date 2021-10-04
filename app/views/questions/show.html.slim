@@ -2,22 +2,22 @@
   = render @question
 
 - if user_signed_in?
-  p New answer
+  h4 New answer
   .new-answer-form
     .answer-errors
     = render '/answers/form'
 
-  p New comment
+  h4 New comment
   .new-comment-form
     .comment-errors
     = render '/comments/form', commentable: @question
 
-p Answers
+h3 Answers
 .answers
   - if @question.best_answer_id
     = render @question.best_answer, best: true
   = render @question.answers_without_best
 
-p Comments
+h3 Comments
 .question-comments
   = render @question.comments.order(created_at: :asc)

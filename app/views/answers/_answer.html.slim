@@ -1,6 +1,7 @@
 - if answer.persisted?
   .answer id="answer-id-#{answer.id}" class=("best" if local_assigns[:best])
-    p = answer.body
+    - cache answer do
+      p = answer.body
 
     = render "/shared/votes/vote_block", vote: (current_user&.vote_by(answer) || answer.votes.new), voteable: answer
 

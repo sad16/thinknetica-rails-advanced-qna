@@ -21,10 +21,12 @@ Rails.application.configure do
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
-    config.action_controller.perform_caching = false
+    config.action_controller.perform_caching = true
   end
 
-  config.cache_store = :redis_cache_store, { url: 'redis://localhost:6379/1' }
+  config.action_controller.enable_fragment_cache_logging = true
+
+  config.cache_store = :redis_cache_store, { url: 'redis://localhost:6379/1', expires_in: 90.minutes }
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :amazon

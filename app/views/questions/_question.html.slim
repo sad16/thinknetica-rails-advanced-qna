@@ -1,6 +1,7 @@
 .question id="question-id-#{@question.id}"
-  h1.title = @question.title
-  p.body = @question.body
+  - cache @question do
+    h1.title = @question.title
+    p.body = @question.body
 
   = render "/shared/votes/vote_block", vote: @vote, voteable: @question
 

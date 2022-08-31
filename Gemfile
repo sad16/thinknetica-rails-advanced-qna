@@ -44,7 +44,7 @@ gem 'aws-sdk-s3', require: false
 gem 'validate_url'
 gem 'cocoon'
 gem 'gon'
-gem "omniauth", '~> 1.9.1'
+gem "omniauth", '~> 1.9.2'
 gem 'omniauth-vkontakte'
 gem 'omniauth-github'
 gem 'pundit'
